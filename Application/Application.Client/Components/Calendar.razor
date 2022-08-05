@@ -1,0 +1,107 @@
+﻿@using System.Globalization
+@using Application.Client.Components;
+@using Application.Client.Classes;
+
+@{
+    var FirstDayOfMonth = new DateOnly(SelectedMonthDate.Year, SelectedMonthDate.Month, 1);
+    var FirstDayOfWeekOfMonth = Dates.GetAdjustedDayOfWeek((int)FirstDayOfMonth.DayOfWeek);
+}
+
+<ModalWin Options="@Modal" EventAdded="NotifyEventAdded" />
+
+@if (EventList != null)
+{
+    <div class="CalendarGrid">
+
+
+        
+        @for (var i = 0; i < 7; i++)
+        {
+            <div class="WeekDays">@Dates.GetDayOfWeekName(i)</div> 
+        }
+
+        @for (var i = 0; i < FirstDayOfWeekOfMonth; i++)
+        {
+            <div></div>
+        }
+
+        @for (var i = 0; i < DateTime.DaysInMonth(SelectedMonthDate.Year, SelectedMonthDate.Month); i++)
+        {
+            var calendarDay = FirstDayOfMonth.AddDays(i);
+
+            <div class="DayBox @GetBackground(calendarDay)"
+                ondragover="event.preventDefault();"
+                @ondrop="() => DropEvent(calendarDay)"
+                @onclick="() => OpenWin(calendarDay)">
+
+                <div class="DayData">@(calendarDay.Day)</div>
+
+                @foreach (var eventToday in GetEvents(calendarDay))
+                {
+                    <div class="Event" draggable="true" 
+                        @ondragstart="() => HandleDragStart(eventToday, calendarDay)">
+
+                        @($"{eventToday.Time.Hour}:{eventToday.Time.Minute} {eventToday.Message}")
+                    </div>
+                }
+            
+            </div>
+        }
+    </div>
+}
+
+@code {
+
+    [Parameter] 
+    public DateTime SelectedMonthDate { get; set; }
+
+    [Parameter] 
+    public Dictionary<DateOnly, HashSet<Event>> EventList { get; set; }
+
+    [Parameter]
+    public EventCallback<MovedEvent> EventMoved { get; set; }
+
+    [Parameter]
+    public EventCallback<NewEvent> EventAdded { get; set; }
+
+    static HashSet<Event> NoEvents = new HashSet<Event>();
+
+    Event DraggedEvent;
+    DateOnly DraggedDate;
+
+    ModalOptions Modal = new();
+
+    void OpenWin(DateOnly day)
+    {
+        Modal.Day = day;
+        Modal.Visible = true;
+    }
+
+    HashSet<Event> GetEvents(DateOnly day)
+        => EventList.ContainsKey(day)
+        ? EventList[day]
+        : NoEvents;
+
+    void HandleDragStart(Event draggedEvent, DateOnly day)
+        => (DraggedEvent, DraggedDate) = (draggedEvent, day);
+
+    async Task DropEvent(DateOnly day)
+    {
+        MovedEvent dragDropParameter = new()
+        {
+            PreviousDay = DraggedDate,
+            NewDay = day,
+            Event = DraggedEvent
+        };
+
+        await EventMoved.InvokeAsync(dragDropParameter);
+    }
+
+    Task NotifyEventAdded(NewEvent newEvent)
+        => EventAdded.InvokeAsync(newEvent);
+
+    string GetBackground(DateOnly day)
+        => day.DayOfWeek == DayOfWeek.Saturday
+        || day.DayOfWeek == DayOfWeek.Sunday
+        ? "Weekends" : string.Empty;
+}

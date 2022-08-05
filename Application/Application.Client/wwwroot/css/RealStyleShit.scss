@@ -1,0 +1,127 @@
+﻿@mixin Flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+html, body, app {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+app {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn {
+    margin: 0 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.Header {
+    padding: 10px;
+    display: flex;
+    width: 840px;
+
+    :first-child {
+        cursor: pointer;
+    }
+
+    :last-child {
+        @include Flex();
+        cursor: default;
+        width: 100px;
+    }
+}
+
+.CalendarGrid {
+    display: grid;
+    grid-template-rows: 50px;
+    grid-template-columns: repeat(7, minmax(120px, 120px));
+    grid-auto-rows: 120px;
+
+    .WeekDays {
+        font-size: 16px;
+        padding: 10px;
+        border-bottom: 1px solid gray;
+        cursor: default;
+    }
+
+    .Weekends {
+        background: #aaecb1;
+    }
+
+    .DayBox {
+        cursor: pointer;
+        transition: all 0.1s ease-out;
+        background: #bcefee;
+
+        .DayData {
+            @include Flex();
+            transition: all 0.1s ease-out;
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .Event {
+            border-radius: 5px;
+            color: white;
+            background-color: #6414c7;
+            margin: 5px;
+            padding: 5px;
+            font-size: 0.8em;
+            font-weight: 600;
+            z-index: 1;
+            cursor: grab;
+            padding: 5px;
+            white-space: nowrap;
+
+            &:active {
+                cursor: grabbing;
+            }
+        }
+
+        &:hover > .DayData {
+            color: white;
+            background-color: #6414c7;
+        }
+    }
+}
+
+.ModalWin {
+    @include Flex();
+    border-radius: 5px;
+    border: 1px solid gray;
+    flex-direction: column;
+    padding: 10px;
+    width: 300px;
+    height: 100px;
+    background-color: white;
+
+    .Form {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .InputText {
+            width: 70%;
+        }
+    }
+
+    .ModalWinFooter {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 50px;
+    }
+}

@@ -1,0 +1,194 @@
+html, body, app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+app {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.btn {
+  margin: 0 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.Header {
+  padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 840px;
+}
+.Header :first-child {
+  cursor: pointer;
+}
+.Header :last-child {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: default;
+  width: 100px;
+}
+
+.CalendarGrid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 50px;
+  grid-template-rows: 50px;
+  -ms-grid-columns: (minmax(120px, 120px))[7];
+  grid-template-columns: repeat(7, minmax(120px, 120px));
+  grid-auto-rows: 120px;
+}
+
+.CalendarGrid > *:nth-child(1) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+}
+
+.CalendarGrid > *:nth-child(2) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+}
+
+.CalendarGrid > *:nth-child(3) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
+}
+
+.CalendarGrid > *:nth-child(4) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 4;
+}
+
+.CalendarGrid > *:nth-child(5) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 5;
+}
+
+.CalendarGrid > *:nth-child(6) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 6;
+}
+
+.CalendarGrid > *:nth-child(7) {
+  -ms-grid-row: 1;
+  -ms-grid-column: 7;
+}
+.CalendarGrid .WeekDays {
+  font-size: 16px;
+  padding: 10px;
+  border-bottom: 1px solid gray;
+  cursor: default;
+}
+.CalendarGrid .Weekends {
+  background: #aaecb1;
+}
+.CalendarGrid .DayBox {
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  background: #bcefee;
+}
+.CalendarGrid .DayBox .DayData {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  margin: 5px;
+}
+.CalendarGrid .DayBox .Event {
+  border-radius: 5px;
+  color: white;
+  background-color: #6414c7;
+  margin: 5px;
+  padding: 5px;
+  font-size: 0.8em;
+  font-weight: 600;
+  z-index: 1;
+  cursor: -webkit-grab;
+  cursor: grab;
+  padding: 5px;
+  white-space: nowrap;
+}
+.CalendarGrid .DayBox .Event:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+.CalendarGrid .DayBox:hover > .DayData {
+  color: white;
+  background-color: #6414c7;
+}
+
+.ModalWin {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 5px;
+  border: 1px solid gray;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 10px;
+  width: 300px;
+  height: 100px;
+  background-color: white;
+}
+.ModalWin .Form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.ModalWin .Form .InputText {
+  width: 70%;
+}
+.ModalWin .ModalWinFooter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 50px;
+}

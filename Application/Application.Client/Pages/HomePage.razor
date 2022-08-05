@@ -1,0 +1,70 @@
+﻿@page "/"
+
+@using Application.Client.Classes
+
+<div class="Header"> 
+
+	<div @onclick="() => DateNow = DateTime.Today">Сегодня</div>
+
+	<div class="btn" @onclick="() => MonthSwitch(-1)">@("<")</div>  
+
+	<div class="btn" @onclick="() => MonthSwitch(1)">@(">")</div>
+
+	<div>@DateNow.ToString("MMMM")</div>
+
+</div>
+
+<Calendar SelectedMonthDate="DateNow" 
+		  EventMoved="DropEvent"
+          EventAdded="EventAdded"
+		  EventList="EventList" />
+
+@code{
+
+    DateTime DateNow = DateTime.Today;
+
+    Dictionary<DateOnly, HashSet<Event>> EventList;
+
+    protected override void OnInitialized() 
+        => EventList = new()
+        {
+            {
+                DateOnly.FromDateTime(DateNow), 
+                new()
+                {
+                    new()
+                    {
+                        Message = "Chill",
+                        Time = new TimeOnly(4, 20)
+                    },
+                    new()
+                    {
+                        Message = "Stop Chilling",
+                        Time = new TimeOnly(4, 40)
+                    }
+                }
+            }
+        };
+
+    void MonthSwitch(int direction) 
+        => DateNow = DateNow.AddMonths(direction);
+
+    void DropEvent(MovedEvent dropped)
+    {
+        GetEvents(dropped.PreviousDay).Remove(dropped.Event);
+        GetEvents(dropped.NewDay).Add(dropped.Event);
+    }
+
+    void EventAdded(NewEvent newEvent)
+        => GetEvents(newEvent.Day).Add(newEvent.Event);
+
+    HashSet<Event> GetEvents(DateOnly day)
+    {
+        if (EventList.TryGetValue(day, out var events))
+        {
+            return events;
+        }
+
+        return EventList[day] = new HashSet<Event>();
+    }
+}

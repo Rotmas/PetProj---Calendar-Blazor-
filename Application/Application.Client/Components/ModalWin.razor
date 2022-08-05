@@ -1,0 +1,49 @@
+﻿@using Application.Client.Classes;
+
+@if (Options.Visible)
+{
+    <div class="ModalWin">
+
+        <EditForm Model="@Event" class="Form" OnSubmit="Submit">
+            <CRXTimePicker @bind-Time="@Event.Time"></CRXTimePicker>
+            <InputText class="InputText" @bind-Value="Event.Message" placeholder="EventText"/>
+        </EditForm>
+
+        <div class="ModalWinFooter">
+            <div class="btn" @onclick="@CloseWin">Close</div>
+            <div class="btn" @onclick=@Submit>Submit</div>
+        </div>
+
+    </div>
+}
+
+@code {
+    class NewEventForm
+    {
+        public string Message { get; set; }
+
+        public TimeSpan Time { get; set; }
+    }
+
+    NewEventForm Event = new();
+
+    [Parameter]
+    public ModalOptions Options { get; set; }
+
+    [Parameter]
+    public EventCallback<NewEvent> EventAdded { get; set; }
+
+    void CloseWin()
+        => Options.Visible = false;
+
+    async Task Submit()
+    {
+        var newEvent = new Event
+        {
+            Message = Event.Message,
+            Time = TimeOnly.FromTimeSpan(Event.Time)
+        };
+        await EventAdded.InvokeAsync(new NewEvent { Day = Options.Day, Event = newEvent });
+        Options.Visible = false;
+    }
+}
