@@ -5,4 +5,4 @@
 
 Решение.
 
-![show](./.Presentation/Presentation.gif)
+![show](/Presentation/Presentation.gif)
