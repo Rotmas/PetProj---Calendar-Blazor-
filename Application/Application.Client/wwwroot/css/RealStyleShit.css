@@ -101,7 +101,7 @@ app {
   cursor: default;
 }
 .CalendarGrid .Weekends {
-  background: #aaecb1;
+  background: #aaecb1 !important;
 }
 .CalendarGrid .DayBox {
   cursor: pointer;

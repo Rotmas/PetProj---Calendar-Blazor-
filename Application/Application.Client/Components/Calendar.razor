@@ -29,7 +29,7 @@
         {
             var calendarDay = FirstDayOfMonth.AddDays(i);
 
-            <div class="DayBox @GetBackground(calendarDay)"
+            <div class="@GetBackground(calendarDay) DayBox"
                 ondragover="event.preventDefault();"
                 @ondrop="() => DropEvent(calendarDay)"
                 @onclick="() => OpenWin(calendarDay)">
