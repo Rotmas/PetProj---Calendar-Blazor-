@@ -1,0 +1,37 @@
+﻿<select @onchange="@((e) => OnTimeChanged(e, true))">
+    @for (var h = StartTime.Hours; h <= 23; h++)
+    {
+        <option value="@h" selected="@(Time.Hours == h)">@h.ToString("00")</option>
+    }
+</select>
+
+<select @onchange="@((e) => OnTimeChanged(e, false))">
+    @for (var m = 0; m <= 59; m = m + MinutesSteps)
+    {
+        <option value="@m" selected="@(Time.Minutes == m)">@m.ToString("00")</option>
+    }
+</select>
+
+@code{
+
+    [Parameter]
+    public TimeSpan Time { get; set; } = TimeSpan.Zero;
+
+    [Parameter]
+    public int MinutesSteps { get; set; } = 5;
+
+    [Parameter]
+    public TimeSpan StartTime { get; set; } = TimeSpan.Zero;
+
+    [Parameter]
+    public EventCallback<TimeSpan> TimeChanged { get; set; }
+
+    protected void OnTimeChanged(ChangeEventArgs e, bool hours)
+    {
+        Time = (hours)
+            ? TimeSpan.Parse($"{e.Value}:{Time.Minutes}")
+            : TimeSpan.Parse($"{((StartTime != TimeSpan.Zero && Time.Hours < StartTime.Hours) ? StartTime.Hours : Time.Hours)}:{e.Value}");
+
+        TimeChanged.InvokeAsync(Time);
+    }
+}

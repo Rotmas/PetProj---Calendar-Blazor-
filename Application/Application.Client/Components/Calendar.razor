@@ -13,8 +13,6 @@
 {
     <div class="CalendarGrid">
 
-
-        
         @for (var i = 0; i < 7; i++)
         {
             <div class="WeekDays">@Dates.GetDayOfWeekName(i)</div> 
@@ -44,9 +42,10 @@
                         @($"{eventToday.Time.Hour}:{eventToday.Time.Minute} {eventToday.Message}")
                     </div>
                 }
-            
+
             </div>
         }
+
     </div>
 }
 
